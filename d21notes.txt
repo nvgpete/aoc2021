@@ -1,0 +1,15 @@
+Dirac dice game
+
+There are no data files for this problem; the starting positions for the
+example data and the problem data are on two consecutive lines of each
+program with one of them commented out.
+
+Part a is easy, though I did renumber the positions to 0..9 and made an
+array of what the 3 dice would add up to mod 10 on consecutive turns to
+simplify.
+
+Part b generates far too many universes to track them all separately. I
+created a 4D array indexed by each player's position and points which keeps
+track of the number of ways that position can be reached. If a player goes
+past 21 the count is added to that player's win count; otherwise the
+count is added to the new position reached.

@@ -1,0 +1,26 @@
+Moving amphipods for fun and profit
+
+I did part a by hand by noting that moving D a minimum is most important,
+then C, B and A. With my dataset it only took about 5 minutes to solve.
+
+I looked at part b the same way, but it was difficult to see any solution
+for it. Reading the initial data file was more pain than it was worth so
+the intital position is hard-coded at the beginning of the program, along
+with a couple of commented out test data sets.
+
+The rooms and hall are set up as two arrays with a table of distances
+between each room location and each hall location. A move() routine takes
+the initial position (in a global variable so I don't have to pass it
+around) and recursively calls itself until a solution is found. If the
+solution is cheaper than anything previous it becomes the new best solution.
+
+It took me a long time to debug this as in my distance table initialization
+I had written 7.9 in the middle somewhere rather than 7,9 and my ancient
+eyes have trouble telling the diference. This led to the program seeming to
+work, and actually working on the example data, but giving the wrong answer
+for the problem data. One would think "gcc -Wall" might tell me I was
+attempting to assign a real to an integer and also that I had one too few
+initializers, but it didn't. Curious, since it natters at me about all kinds
+of other stuff it doesn't like. Anyway, my daughter suggested trying clang
+instead, and sure enough, it complained about both things.
+   

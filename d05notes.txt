@@ -1,0 +1,6 @@
+Avoiding hydrothermal vents
+
+Normal compile for part a, use "-D PARTB" flag to get part b.
+For example
+gcc -O2 -o d05a d05a.c   // part a
+gcc -D PARTB -o d05b d05a.c   // part b

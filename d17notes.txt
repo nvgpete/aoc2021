@@ -1,0 +1,16 @@
+Launching a probe into a trench
+
+There is no d17a.c since I did the first part by hand. Note that for a probe
+launched upward, its y velocity when it comes back to y=0 will be the same
+as its initial upward velocity. The largest this can be will exactly reach
+the deepest value of the target area, which is -215, in one second. The height
+reached will be 1/2*vy*(vy-1)=23005.
+
+For part b, note that the velocities are independent, so for each time t
+that we might be in the target area we can find how many values of vx and vy
+will be in the specified range and multiply them together, and then add them
+all up for the values of t, up to the maximum value of t which can be
+derived from what we found in part a. The only fly in the ointment is that
+there may be some values of vx and vy that produce points in the target area
+for two consecutive times so we subtract those off.
+ 

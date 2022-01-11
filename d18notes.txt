@@ -1,0 +1,27 @@
+Adding snailfish numbers
+
+I decided to store the snailfish numbers as c strings rather than try
+something more natural like an object or tree which I didn't feel like
+implementing in c.
+
+Since the only legal characters in reduced snailfish numbers are '[],' and
+the digits 0-9 there is not much to parse. During reduction, integers may be
+larger than 9, but I still wanted to store them in a character. I used ASCII
+characters larger than '9' (eg ':'=10,';'=11 etc) to hold the larger
+integers. Unfortunately, it was possible for these integers to become as
+large as 43='[' and 45=']' messing up the structure of the snailfish number.
+
+The next option was to use characters over 128 to represent the larger
+numbers; 138=10,139=11 etc. This required me to change the char variables to
+unsigned char. (If you compile with -Wall, you might notice this leads to
+pages of warnings, all harmless in this case. In a real program I might
+figure out what exactly needs to be unsigned, throw in a bunch of casts and
+eliminate the warnings, but I'd spent enough time debugging this already.) I
+also made an add() subroutine since adding this mishmash of number
+representations required enough statements to not want to inline it.
+
+The magnitude calculation also caused some grief as I thought I could do it
+in place, but a rare errant overwrite of part of the string forced me to use a
+second string to write the result.
+
+I am happy to not be a snailfish.

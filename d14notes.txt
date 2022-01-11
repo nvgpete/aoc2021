@@ -1,0 +1,17 @@
+Polymer expansion
+
+Many times there is an easy way to solve part a which does not extend to
+part b because of memory or time constraints. This is an example.
+
+In part a, I kept a string containing the polymer, which expanded to about
+20,000 bytes after 10 iterations, easily fitting in memory.
+
+In part b, 40 iterations creates a string far too large for memory so I
+need to do something else. By creating counts of pairwise adjacent elements
+I can store only those counts, and add elements based on the adjacent pairs.
+
+Obviously, I could throw away part a since part b's methodology would work
+just as well for 10 iterations. I won't because it's a good illustration of
+how ones first idea is not always best.
+
+Also note that method b runs faster on 40 iterations than method a on 10.

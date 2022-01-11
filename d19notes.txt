@@ -1,0 +1,42 @@
+Mapping with scanners and beacons which are clever enough to remain
+perfectly motionless, but too stupid to know which way is up.
+
+I procrastinated for a long time on this one because it seemed so hard to do
+rigorously and I hoped some inspiration might come. It never did, so I
+started coding simplistically and figured I would deal with the hard things
+when and if they came up. Most of them did not.
+
+I normally don't comment code much since it's pretty easy to see what it
+does. This one is an exception, so the methodology is pretty well explained
+in the source. Basically, find all pairwise distances for each scanner,
+compare them between scanners, and where they overlap rotate and invert
+coordinate systems as needed to make them the same, and then translate to put
+them in the same system as scanner 0.
+
+The code is not robust, but is good enough to work on my input data. The
+following are not handled perfectly, if at all.
+
+1. More than 12 beacons overlapping between two scanners. This would be
+fairly easy to fix by counting the beacons.
+
+2. Extra distance matches caused by a couple of scanners happening to be the
+same distance apart. There is some simple minded code to fix this if there
+are not too many.
+
+3. Multiple pairs of beacons the same distance apart, either because they
+have the same diferences in x,y and z, or worse, because they just happen to
+add up to the same thing.  Could be fixed by an analysis of the pairs of
+beacons.
+
+4. Two scanners which do not overlap, but which happen to have at least 12
+beacons at the same relative points, but in a left handed coordinate
+system. This would be a really mean thing to do, but is actually fairly easy
+to check for by counting the total number of rotation and inversions and
+being sure that it is even.
+
+5. Even meaner would be two sets of beacons which appear to match, but
+having other beacons which should be visible to both scanners, but are not.
+
+6. Probably others which I haven't thought of and which did not occur in my
+data.
+ 

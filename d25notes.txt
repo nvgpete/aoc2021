@@ -1,0 +1,11 @@
+Sea cucumbers on a torus
+
+(I think putting them on a torus is more realistic than currents pushing
+them back to the start of the grid.)
+
+Only 1 part, and easy since no one has time for hard programs on Christmas
+Eve and early Christmas morning.
+
+The only trick I used was to copy the first column to 1 past the last before
+the horizontal step and then copying it back to column 1, and similarly for
+the rows and the vertical step. 

@@ -1,0 +1,30 @@
+Miswired 7 segment displays
+
+Most, though not all, of these problems can be done by brute force and it is
+often quickest to code that way to get a working program as soon as
+possible. But not always.
+
+d08b.c is my brute force attempt. Just make a list of all the possible
+permutations of the segments (only 7! = 5040 possibilities), use the first
+dataset to figure out which one it was, and then decode the reading in the
+second half of the line. 
+
+Things I didn't anticipate
+Creating the 7! permutations isn't easy.
+The segments a-g are listed in no particular order and so must be sorted.
+Searching the table for the right digit is tedious. 
+All of the above are prone to coding errors which are not always easy to
+find.
+
+Nonetheless, it eventually worked taking about 0.5 sec on my slow netbook.
+
+If I had thought harder instead of debugging code, I might have come up with
+d08c.c first. Here I simply look for the numbers 1 and 4 in the test input
+and ignore everything else. Then using the length of the segment strings and
+some bit manipulation with the 1 and 4 repesentaions I can decode with a
+simple switch statement. No  7! pemutations. No table searches. Doesn't
+matter what order the segments are listed in. So simple that I could write
+it with no bugs other than a couple of typos which the compiler caught. And
+it ran about 100 times faster than d08b.c.
+
+  

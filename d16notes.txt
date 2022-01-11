@@ -1,0 +1,11 @@
+Decoding elves BITS transmissions
+
+Recursive descent on the packets seems indicated.
+
+The c %8x format string gets 32 bits at a time without worrying about
+unpacking hex values. Only need to pad input out with 0's to a multiple of 8
+bytes.
+
+In the example data, d16x.txt, I have collected all the examples given into
+one file, thus the loop over lines which is unnecessary for the problem
+data. 

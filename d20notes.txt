@@ -1,0 +1,12 @@
+Image enhancement
+
+Two tricky parts
+1. The active part of the image grows by 1 in each of the 4 directions with
+each iteration.
+2. Because the background flips between empty and '#' with each iteration,
+we need a 1 pixel wide guard band at each edge of the area which is filled
+with either empty or '#'.
+
+I could have been more efficient by only looking at the active part of the
+image and enlarging by 1 each iteration, but that way lays madness, since
+it runs in 1/20 second in its inefficient form.

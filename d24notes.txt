@@ -1,0 +1,116 @@
+MONAD - Calculating model numbers on the goofiest processor since the F8.
+(https://en.wikipedia.com/wiki/Fairchild_F8)
+
+In all of the following code, I number the digits from D0 on the left to D13
+on the right.
+ 
+I decided rather than write a interpreter for the ALU code that I would
+write a program (d24m.c) convert the MONAD program to c (d24s.c). This was
+as easy if not easier than interpreting and allowed me to crank up the
+optimization on the C compiler in hopes it might find some major shortcuts.
+(More on that later.)
+
+I ran some quick tests which showed about 115 ns per MONAD call, so a quick
+calculation gave 9^14*115ns ~= 1 month to exhaustively search the whole space
+of model numbers. This seemed a bit excessive so I went about commenting the
+MONAD program while running the search, just in case I got lucky and a valid
+model number was close to the end. The commented MONAD code is in d24a.txt. The
+gist of it is, that in order to return 0 there must be as many divides of z by
+26 as multiplies and that puts severe restrictions on certain pairs of input
+digits. The program d24a.c implements all these restrictions, and at the end
+of the day, does not even need to call the MONAD function, though it is there,
+commented out, so I could verify they really all returned 0. The program runs
+in under 1/100 of a second and returns the highest, lowest and total number of
+valid model numbers. 
+
+That's all there was to the problem, but here a few other random thoughts.
+
+1. In all the tests I did clang produced about 10-15% faster code than gcc for
+the MONAD routine; thus below I use it for the example compiles.
+
+2. To get the MONAD routine, compile and run d24m.c. That will generate a
+file d24s.c which contains the MONAD code.
+
+3. If I had a fast desktop processor like an AMD Ryzen 5900x or an Intel I9
+12900 instead of my celeron 3350, I might have tried the exhaustive search.
+d24b.c contains code to do this. Compile it thus:
+  clang -O2 -o d24b d24s.c d24b.c
+On my netbook, the first solution would have been in 20 days; on the fast
+processors, about 4 days, as they are about a factor of 5 faster on single
+threaded code.
+
+4. With lots of cores on the desktop processors, one can compile d24b.c
+ as follows, for example:
+  clang -O2 -D D0=3 -o d24b3 d24s.c d24b.c
+This will give a version which uses 3 for the leftmost digit. You could do
+similar compiles to get the rest of the left digits 1-9. Since the programs
+are tiny and access little memory, they should run happily in parallel. That
+would reduce run time for the full search on a fast machine to about
+30 days/9/5=16 hours.
+
+5. In retrospect, I should have done this even for my lame 2 core celeron.
+Why? Because for D0=1,2,3 a valid model number is found in about 15 seconds,
+the numbers are suspiciously similar, and I'd have been willing to guess the
+one starting with 3 was the highest without waiting another 3 weeks to see if
+it found any starting with 4-9.
+
+6. Is there any way to help the c compiler to make it smarter? My analysis
+depended heavily on the fact that all digits were between 1 and 9. C doesn't
+really have a way to pass that information to the compiler. I tried putting
+a statement "if (w<0||w>9) return -1;" after the first "inp w" instruction,
+but it was unable to make use of the fact that w was now between 1 and 9.
+
+7. C compilers can often optimize loops by unrolling. The MONAD code is
+linear with no loops, but I could move some of the loops from the calling
+program inside MONAD.  d24m2.c when compiled and run creates the file d24s2.c
+with internal loops over all but D0. The program d24b2.c can be used as 
+driver. Both recognize compile defines D0={1-9} to control D0 and UP to
+count up from the lowest version. Without a D0=, D0 will be looped over from
+9->1 or 1->9 with UP. For example, 
+
+clang -D D0=3 -O3 -o d24b2 d24s2.c d24b2.c
+will find the highest valid version number with leftmoost digit 3.
+
+clang -D UP -O3 -o d24b2 d24s2.c d24b2.c
+will rigorously find the lowest valid version number.
+
+clang -D -O3 -o d24b2 d24s2.c d24b2.c
+will rigorously find the highest valid version number.
+
+On my test data, running the first program above finds the highest version
+number beginning with 3 in about 0.4 seconds, corresponding to about 3.1 ns
+per trip through MONAD. That's a pretty good improvement from the original
+115 ns. Most of it is because bringing the loops inside MONAD causes only
+the D13 innermost loop instead of the whole D0-D13 program to be run 89%
+of the time with a bit of additional speedup from the other loops.
+Indirectly I measured that improved compilation on the loops resulted in
+about a 40% improvement in speed. Note that i would have to run checks on
+D0=4-9 to be sure this was really the highest version number.
+
+The second program finds the lowest version number in 103 minutes, again
+corresponding to 3.1 ns per version checked.
+
+The third program finds the highest version number in a bit over 13 hours,
+also 3.1 ns per version. Thus I could do each of D0=4-9 separately in about
+2 hours 10 minutes. Running 2 at a time on my dual core celeron that would be
+about 6.5 hours total. If I had a Ryzen or an I9, I could run all of the
+digits D0 simultaneously, and D6-D9 would each take about
+2 hours 10 minutes / 5 = 26 minutes. (This may be an underestimate as the
+celeron does integer math pretty fast, but alas, I haven't any faster
+machines to try.) Anyway, it appears the problem can be solved by brute
+force in a reasonable time.
+
+
+8. bc is one of my favorite command line programs. It can do all kinds of
+wonderful things in its own idiosyncratic way. For example, the version
+numbers calculated here are sort of base 9 so I used it to calculate the
+above timings. Just use "ibase=9" which sets the input base to 9, read in
+the version numbers and calculate the timings. But don't forget to set
+ibase back to 10 or all of your calculations will be screwy, probably in a
+non-obvious way since these are big numbers.
+
+So, what is the value of ibase after the following two lines?
+ibase=9
+ibase=10
+Try it and see... (type ibase by itself on a line to see its value)
+ 

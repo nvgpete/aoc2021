@@ -1,0 +1,24 @@
+Finding best path from upper left to lower right
+
+Compile d15a.c with -D PARTB to get part b's solution.
+gcc/clang -D PARTB -O2 -o d15b d15a.c
+
+Here I started from the top left and calculated the weighted distance to
+cells by recursively going to each adjacent cell and only skipping them if
+they already had a smaller distance value. (The recursion didn't use a
+subroutine; instead I pushed cells onto a stack inside a loop, taking the
+top elemennt off each time through). I checked down and right first
+since these were the directions towards the bottom right corner. This turned
+out to be a bad idea as even the small grid took over a minute to solve, and
+required me to keep enlarging my stack to avoid overflow.
+
+My daughter said something about optimizing the path, and since her code (in
+Python, no less) ran much more quickly I looked for something to try. The
+easiest thing was to order the cells push on the stack by weight, but I
+realized I could order the whole stack that way. So there is an extra line
+of code that does an insertion sort to push the cell further down the stack
+based on its weighted distance. Note that in a procedure based recursion
+this would be difficult if not impossible. Anyway, that helped considerably
+and the times for part a and b were 0.01 and 0.2 seconds respectively.
+Maximum stack usage also dropped by at least a factor of 20.
+ 

@@ -1,0 +1,8 @@
+Mucking with binary numbers to find power and life support values
+
+The number of bits in the input is hard-coded. Change the #DEFINE statement
+to 5 for the example data, 12 for the real data.
+
+Part a store does not store the bits since they can be counted as they are
+read. Part b stores them as 12 bit integers and uses bit manipulations to
+solve the problem.

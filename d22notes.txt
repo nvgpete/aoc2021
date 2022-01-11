@@ -1,0 +1,11 @@
+Reactor reboot - overlapping 3D blocks
+
+With a MB of ram and 3 loops over xyz, part a is easy.
+
+To get part b, compile with -D PARTB.
+
+In part b I keep a list of blocks. Each time a new block intersects a
+previous block, the previous block is split in the x, y and z directions to
+make 0-6 blocks which don't intersect the new block, and are added to the 
+list. If the new block is 'off' it's then thrown away; otherwise it's added
+to the list.  
