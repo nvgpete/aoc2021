@@ -1,4 +1,4 @@
-####These are solutions written in c for the Advent of Code - 2021. 
+#### These are solutions written in c for the Advent of Code - 2021. 
 See https://adventofcode.com/2021
 
 Each problem generally has two parts. Examples of filenames for day 7 are:
