@@ -1,4 +1,4 @@
-These are solutions written in c for the Advent of Code - 2021. 
+####These are solutions written in c for the Advent of Code - 2021. 
 See https://adventofcode.com/2021
 
 Each problem generally has two parts. Examples of filenames for day 7 are:
@@ -11,7 +11,7 @@ Files of the sort d07b.c may not exist if the two parts of the problem were
 similar enough to do both in d07a.c.
 
 The c programs generally have an fopen statement where I can change the data
-file and recompile to go between example and pronlem datasets.
+file and recompile to go between example and problem datasets.
 
 Sometimes, as in day 8, there may be a third program, eg d08c.c. This is an
 indication I thought of a better/different way to do some part of the problem.
